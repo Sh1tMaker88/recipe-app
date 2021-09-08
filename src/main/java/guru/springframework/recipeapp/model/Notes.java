@@ -1,5 +1,6 @@
 package guru.springframework.recipeapp.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 @NoArgsConstructor
 public class Notes {
