@@ -10,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,6 +22,10 @@ class RecipeServiceImplTest {
 
     @Mock
     RecipeRepository recipeRepository;
+//    @Mock
+//    RecipeToRecipeDto recipeToRecipeDto;
+//    @Mock
+//    RecipeDtoToRecipe recipeDtoToRecipe;
 
     @InjectMocks
     RecipeServiceImpl recipeService;
@@ -27,6 +33,19 @@ class RecipeServiceImplTest {
     @BeforeEach
     void setUp() {
 
+    }
+
+    @Test
+    void getRecipeByIdTest() {
+        Recipe recipe = Recipe.builder().id(1L).build();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+
+        Recipe returnedRecipe = recipeService.findById(1L);
+
+        assertNotNull(returnedRecipe);
+        verify(recipeRepository).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
     }
 
     @Test
@@ -40,5 +59,8 @@ class RecipeServiceImplTest {
 
         assertEquals(recipeSet.size(), 1);
         verify(recipeRepository, times(1)).findAll();
+        verify(recipeRepository, never()).findById(anyLong());
     }
+
+
 }
