@@ -11,5 +11,7 @@ public interface RecipeService {
 
     Recipe findById(Long id);
 
+    RecipeDto findRecipeDtoById(Long id);
+
     RecipeDto saveRecipeDTO(RecipeDto recipeDTO);
 }

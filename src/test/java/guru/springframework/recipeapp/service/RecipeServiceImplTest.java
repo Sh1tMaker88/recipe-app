@@ -1,5 +1,7 @@
 package guru.springframework.recipeapp.service;
 
+import guru.springframework.recipeapp.converter.RecipeToRecipeDto;
+import guru.springframework.recipeapp.dto.RecipeDto;
 import guru.springframework.recipeapp.model.Recipe;
 import guru.springframework.recipeapp.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,8 +24,8 @@ class RecipeServiceImplTest {
 
     @Mock
     RecipeRepository recipeRepository;
-//    @Mock
-//    RecipeToRecipeDto recipeToRecipeDto;
+    @Mock
+    RecipeToRecipeDto recipeToRecipeDto;
 //    @Mock
 //    RecipeDtoToRecipe recipeDtoToRecipe;
 
@@ -46,6 +48,24 @@ class RecipeServiceImplTest {
         assertNotNull(returnedRecipe);
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void getRecipeDtoByIdTest() {
+        Recipe recipe = Recipe.builder().id(1L).build();
+
+        RecipeDto recipeDto = new RecipeDto();
+        recipeDto.setId(1L);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+        when(recipeToRecipeDto.convert(any())).thenReturn(recipeDto);
+
+        RecipeDto recipeById = recipeService.findRecipeDtoById(1L);
+
+        assertNotNull(recipeById);
+        verify(recipeRepository).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+        verify(recipeToRecipeDto).convert(any());
     }
 
     @Test
