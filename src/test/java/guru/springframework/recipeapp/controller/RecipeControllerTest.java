@@ -37,7 +37,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void gerRecipe() throws Exception {
+    void gerRecipeTest() throws Exception {
         Recipe recipe = Recipe.builder().id(1L).build();
 
         when(recipeService.findById(anyLong())).thenReturn(recipe);
@@ -49,7 +49,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void getNewRecipeForm() throws Exception {
+    void getNewRecipeFormTest() throws Exception {
 
         mockMvc.perform(get("/recipe/new"))
                 .andExpect(status().isOk())
@@ -58,7 +58,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void postNewRecipeForm() throws Exception {
+    void postNewRecipeFormTest() throws Exception {
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setId(2L);
 
@@ -74,7 +74,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void getUpdateView() throws Exception {
+    void getUpdateViewTest() throws Exception {
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setId(2L);
 
