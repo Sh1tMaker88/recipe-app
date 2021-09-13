@@ -28,7 +28,7 @@ public class IngredientDtoToIngredient implements Converter<IngredientDto, Ingre
         ingredient.setId(ingredientDto.getId());
         ingredient.setAmount(ingredientDto.getAmount());
         ingredient.setDescription(ingredientDto.getDescription());
-        ingredient.setUom(uomConverter.convert(ingredientDto.getUnitOfMeasure()));
+        ingredient.setUom(uomConverter.convert(ingredientDto.getUom()));
 
         return ingredient;
     }

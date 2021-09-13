@@ -2,6 +2,7 @@ package guru.springframework.recipeapp.converter;
 
 import guru.springframework.recipeapp.dto.IngredientDto;
 import guru.springframework.recipeapp.model.Ingredient;
+import guru.springframework.recipeapp.model.Recipe;
 import guru.springframework.recipeapp.model.UnitOfMeasure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ class IngredientToIngredientDtoTest {
     public static final BigDecimal AMOUNT = new BigDecimal("1");
     public static final String DESCRIPTION = "Cheeseburger";
     public static final Long ID_VALUE = 1L;
+    public static final Long RECIPE_ID = 1L;
     public static final Long UOM_ID = 2L;
 
     IngredientToIngredientDto converter;
@@ -43,13 +45,16 @@ class IngredientToIngredientDtoTest {
         ingredient.setAmount(AMOUNT);
         ingredient.setDescription(DESCRIPTION);
         ingredient.setUom(null);
+        Recipe recipe = Recipe.builder().id(RECIPE_ID).build();
+        ingredient.setRecipe(recipe);
 
         //when
         IngredientDto ingredientDto = converter.convert(ingredient);
 
         //then
-        assertNull(ingredientDto.getUnitOfMeasure());
+        assertNull(ingredientDto.getUom());
         assertEquals(ID_VALUE, ingredientDto.getId());
+        assertEquals(RECIPE_ID, ingredientDto.getRecipeId());
         assertEquals(AMOUNT, ingredientDto.getAmount());
         assertEquals(DESCRIPTION, ingredientDto.getDescription());
     }
@@ -61,6 +66,8 @@ class IngredientToIngredientDtoTest {
         ingredient.setId(ID_VALUE);
         ingredient.setAmount(AMOUNT);
         ingredient.setDescription(DESCRIPTION);
+        Recipe recipe = Recipe.builder().id(RECIPE_ID).build();
+        ingredient.setRecipe(recipe);
 
         UnitOfMeasure uom = new UnitOfMeasure();
         uom.setId(UOM_ID);
@@ -70,8 +77,9 @@ class IngredientToIngredientDtoTest {
         IngredientDto ingredientDto = converter.convert(ingredient);
         //then
         assertEquals(ID_VALUE, ingredientDto.getId());
-        assertNotNull(ingredientDto.getUnitOfMeasure());
-        assertEquals(UOM_ID, ingredientDto.getUnitOfMeasure().getId());
+        assertNotNull(ingredientDto.getUom());
+        assertEquals(RECIPE_ID, ingredientDto.getRecipeId());
+        assertEquals(UOM_ID, ingredientDto.getUom().getId());
         assertEquals(AMOUNT, ingredientDto.getAmount());
         assertEquals(DESCRIPTION, ingredientDto.getDescription());
     }

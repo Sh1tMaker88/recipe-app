@@ -21,7 +21,14 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title" th:text="${recipe.description}">Recipe description here!</h1> <!-- check-->
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h1 class="card-title" th:text="${recipe.description}">Recipe description here!</h1>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-danger" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" role="button">Delete</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -83,7 +90,14 @@
             <br>
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Ingredients</div>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="card-title">Ingredients</div>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-primary" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients/'}" role="button">Edit</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">

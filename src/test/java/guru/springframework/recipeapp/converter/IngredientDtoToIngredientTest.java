@@ -45,7 +45,7 @@ class IngredientDtoToIngredientTest {
         ingredientDto.setDescription(DESCRIPTION);
         UnitOfMeasureDto unitOfMeasureDto = new UnitOfMeasureDto();
         unitOfMeasureDto.setId(UOM_ID);
-        ingredientDto.setUnitOfMeasure(unitOfMeasureDto);
+        ingredientDto.setUom(unitOfMeasureDto);
 
         //when
         Ingredient ingredient = converter.convert(ingredientDto);
@@ -76,6 +76,5 @@ class IngredientDtoToIngredientTest {
         assertEquals(ID_VALUE, ingredient.getId());
         assertEquals(AMOUNT, ingredient.getAmount());
         assertEquals(DESCRIPTION, ingredient.getDescription());
-
     }
 }

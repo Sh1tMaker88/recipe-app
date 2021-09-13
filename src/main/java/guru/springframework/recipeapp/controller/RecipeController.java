@@ -16,7 +16,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/show/{id}")
+    @GetMapping("/{id}/show")
     public String getRecipeById(@PathVariable Long id, Model model) {
         model.addAttribute("recipe", recipeService.findById(id));
 
@@ -42,5 +42,12 @@ public class RecipeController {
         RecipeDto savedRecipeDto = recipeService.saveRecipeDTO(recipeDto);
 
         return "redirect:/recipe/show/" + savedRecipeDto.getId();
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteRecipe(@PathVariable Long id) {
+        recipeService.deleteById(id);
+
+        return "redirect:/";
     }
 }

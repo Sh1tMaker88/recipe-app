@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -69,7 +70,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipes() {
+    void getRecipesTest() {
         Set<Recipe> recipes = new HashSet<>();
         Recipe recipe = new Recipe();
         recipes.add(recipe);
@@ -82,5 +83,11 @@ class RecipeServiceImplTest {
         verify(recipeRepository, never()).findById(anyLong());
     }
 
+    @Test
+    @Rollback
+    void deleteByIdTest() {
+        recipeService.deleteById(1L);
 
+        verify(recipeRepository).deleteById(anyLong());
+    }
 }
