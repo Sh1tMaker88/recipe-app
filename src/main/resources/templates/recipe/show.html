@@ -22,10 +22,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-8">
                             <h1 class="card-title" th:text="${recipe.description}">Recipe description here!</h1>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2">
+                            <a class="btn btn-primary" th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change image</a>
+                        </div>
+                        <div class="col-md-2">
                             <a class="btn btn-danger" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" role="button">Delete</a>
                         </div>
                     </div>
@@ -35,12 +38,19 @@
                         <div class="col-md-3">
                             <h5>Categories</h5>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-3">
                             <ul>
                                 <li th:remove="all">cat one</li>
                                 <li th:remove="all">cat two</li>
-                                <li th:each="category : ${recipe.categories}" th:text="${category.description}">cat three</li>
+                                <li th:each="category : ${recipe.categories}" th:text="${category.description}">cat
+                                    three
+                                </li>
                             </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <img  src="../static/images/tacos400x400.jpg"
+                                 th:src="@{'/recipe/' + ${recipe.id} + '/recipeImage'}"
+                                 width="200" height="200">
                         </div>
                         <div class="row">
                             <div class="col-md-3">
@@ -95,7 +105,8 @@
                             <div class="card-title">Ingredients</div>
                         </div>
                         <div class="col-md-1">
-                            <a class="btn btn-primary" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients/'}" role="button">Edit</a>
+                            <a class="btn btn-primary" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients/'}"
+                               role="button">Edit</a>
                         </div>
                     </div>
                 </div>
@@ -106,7 +117,8 @@
                                 <li th:remove="all">1 cup of milk</li>
                                 <li th:remove="all">1 teaspoon of chocolate</li>
                                 <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient.amount} + ' ' +
-                                ${ingredient.uom.description} + ' of ' + ${ingredient.description}">1 teaspoon of sugar</li>
+                                ${ingredient.uom.description} + ' of ' + ${ingredient.description}">1 teaspoon of sugar
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -120,7 +132,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <p th:text="${recipe.directions}"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi autem consequuntur eligendi eos facere, iste laudantium quia rem sint. Ad culpa iusto molestiae officia pariatur possimus praesentium temporibus, veniam.</span><span>Architecto deserunt doloremque earum, eveniet excepturi id impedit inventore ipsa itaque magnam magni natus nemo nesciunt, nisi odio officiis optio provident quae quibusdam quidem quo recusandae repudiandae tenetur veniam voluptate!</span><span>Blanditiis consequatur culpa cumque doloremque dolores doloribus eaque eum explicabo, fuga hic laudantium necessitatibus neque porro praesentium, provident quasi quis quos repudiandae saepe sapiente soluta sunt veniam voluptates, voluptatibus voluptatum?</span></p>
+                            <p th:text="${recipe.directions}"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi autem consequuntur eligendi eos facere, iste laudantium quia rem sint. Ad culpa iusto molestiae officia pariatur possimus praesentium temporibus, veniam.</span><span>Architecto deserunt doloremque earum, eveniet excepturi id impedit inventore ipsa itaque magnam magni natus nemo nesciunt, nisi odio officiis optio provident quae quibusdam quidem quo recusandae repudiandae tenetur veniam voluptate!</span><span>Blanditiis consequatur culpa cumque doloremque dolores doloribus eaque eum explicabo, fuga hic laudantium necessitatibus neque porro praesentium, provident quasi quis quos repudiandae saepe sapiente soluta sunt veniam voluptates, voluptatibus voluptatum?</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -133,7 +146,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <p th:text="${recipe.notes.recipeNotes}"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi autem consequuntur eligendi eos facere, iste laudantium quia rem sint. Ad culpa iusto molestiae officia pariatur possimus praesentium temporibus, veniam.</span><span>Architecto deserunt doloremque earum, eveniet excepturi id impedit inventore ipsa itaque magnam magni natus nemo nesciunt, nisi odio officiis optio provident quae quibusdam quidem quo recusandae repudiandae tenetur veniam voluptate!</span><span>Blanditiis consequatur culpa cumque doloremque dolores doloribus eaque eum explicabo, fuga hic laudantium necessitatibus neque porro praesentium, provident quasi quis quos repudiandae saepe sapiente soluta sunt veniam voluptates, voluptatibus voluptatum?</span></p>
+                            <p th:text="${recipe.notes.recipeNotes}"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi autem consequuntur eligendi eos facere, iste laudantium quia rem sint. Ad culpa iusto molestiae officia pariatur possimus praesentium temporibus, veniam.</span><span>Architecto deserunt doloremque earum, eveniet excepturi id impedit inventore ipsa itaque magnam magni natus nemo nesciunt, nisi odio officiis optio provident quae quibusdam quidem quo recusandae repudiandae tenetur veniam voluptate!</span><span>Blanditiis consequatur culpa cumque doloremque dolores doloribus eaque eum explicabo, fuga hic laudantium necessitatibus neque porro praesentium, provident quasi quis quos repudiandae saepe sapiente soluta sunt veniam voluptates, voluptatibus voluptatum?</span>
+                            </p>
                         </div>
                     </div>
                 </div>

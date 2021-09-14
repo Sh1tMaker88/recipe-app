@@ -23,6 +23,7 @@ public class RecipeDto {
     private String directions;
     private Set<IngredientDto> ingredients = new HashSet<>();
     private Difficulty difficulty;
+    private Byte[] image;
     private NotesDto notes;
     private Set<CategoryDto> categories = new HashSet<>();
 }
