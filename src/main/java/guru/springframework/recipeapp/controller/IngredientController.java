@@ -1,6 +1,8 @@
 package guru.springframework.recipeapp.controller;
 
 import guru.springframework.recipeapp.dto.IngredientDto;
+import guru.springframework.recipeapp.dto.RecipeDto;
+import guru.springframework.recipeapp.dto.UnitOfMeasureDto;
 import guru.springframework.recipeapp.service.IngredientService;
 import guru.springframework.recipeapp.service.RecipeService;
 import guru.springframework.recipeapp.service.UnitOfMeasureService;
@@ -43,6 +45,21 @@ public class IngredientController {
         return "recipe/ingredients/show";
     }
 
+    @GetMapping("/recipe/{recipeId}/ingredients/new")
+    public String newIngredient(@PathVariable Long recipeId, Model model) {
+        RecipeDto recipeDto = recipeService.findRecipeDtoById(recipeId);
+        //todo raise exception if null
+
+        IngredientDto ingredientDto = new IngredientDto();
+        ingredientDto.setRecipeId(recipeId);
+        model.addAttribute("ingredient", ingredientDto);
+
+        ingredientDto.setUom(new UnitOfMeasureDto());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUom());
+
+        return "recipe/ingredients/ingredientForm";
+    }
+
     @GetMapping("/recipe/{recipeId}/ingredients/{id}/update")
     public String updateRecipeIngredient(@PathVariable Long recipeId,
                                          @PathVariable Long id, Model model) {
@@ -60,5 +77,14 @@ public class IngredientController {
         log.debug("Saved ingredient id:{}", savedIngredientDto.getId());
 
         return "redirect:/recipe/" + savedIngredientDto.getRecipeId() + "/ingredients/" + savedIngredientDto.getId() + "/show";
+    }
+
+    @GetMapping("/recipe/{recipeId}/ingredients/{ingredientId}/delete")
+    public String deleteIngredient(@PathVariable Long recipeId,
+                                   @PathVariable Long ingredientId) {
+        log.debug("Delete ingredient with ID:{} in recipeID:{}", ingredientId, recipeId);
+        ingredientService.deleteIngredientById(recipeId, ingredientId);
+
+        return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 }

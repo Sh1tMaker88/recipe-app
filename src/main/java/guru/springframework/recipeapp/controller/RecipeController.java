@@ -41,7 +41,7 @@ public class RecipeController {
     public String saveOrUpdate(@ModelAttribute RecipeDto recipeDto) {
         RecipeDto savedRecipeDto = recipeService.saveRecipeDTO(recipeDto);
 
-        return "redirect:/recipe/show/" + savedRecipeDto.getId();
+        return "redirect:/recipe/" + savedRecipeDto.getId() + "/show";
     }
 
     @GetMapping("/{id}/delete")

@@ -68,7 +68,9 @@ public class IngredientServiceImpl implements IngredientService {
                 .findFirst();
 
         if (ingredientOptional.isEmpty()) {
-            recipe.addIngredient(ingredientDtoToIngredient.convert(ingredientDto));
+            Ingredient ingredient = ingredientDtoToIngredient.convert(ingredientDto);
+            ingredient.setRecipe(recipe);
+            recipe.addIngredient(ingredient);
         } else {
             Ingredient foundedIngredient = ingredientOptional.get();
             foundedIngredient.setDescription(ingredientDto.getDescription());
@@ -80,10 +82,41 @@ public class IngredientServiceImpl implements IngredientService {
 
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        return ingredientToIngredientDto.convert(savedRecipe.getIngredients().stream()
-                .filter(el -> el.getId().equals(ingredientDto.getId()))
-                .findFirst()
-                .get());
+        Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
+                .filter(ingredient -> ingredient.getId().equals(ingredientDto.getId()))
+                .findFirst();
+
+        if (savedIngredientOptional.isEmpty()) {
+            savedIngredientOptional = savedRecipe.getIngredients().stream()
+                    .filter(el -> el.getDescription().equals(ingredientDto.getDescription()))
+                    .filter(el -> el.getAmount().equals(ingredientDto.getAmount()))
+                    .filter(el -> el.getUom().getId().equals(ingredientDto.getUom().getId()))
+                    .findFirst();
+        }
+
+        return ingredientToIngredientDto.convert(savedIngredientOptional.get());
     }
 
+    @Override
+    public void deleteIngredientById(Long recipeId, Long ingredientId) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+        if (recipeOptional.isEmpty()) {
+            log.error("No such recipe with ID:{}", recipeId);
+            throw new RuntimeException("No such recipe with ID:" + recipeId);
+        }
+
+        Recipe recipe = recipeOptional.get();
+
+        Optional<Ingredient> ingredientOptional = recipe.getIngredients().stream()
+                .filter(el -> el.getId().equals(ingredientId))
+                .findFirst();
+        if (ingredientOptional.isEmpty()) {
+            log.error("No such ingredient with ID:{} in recipeID:{}", ingredientId, recipeId);
+            throw new RuntimeException("No such ingredient with ID:" + ingredientId);
+        }
+        ingredientOptional.get().setRecipe(null);
+        recipe.getIngredients().remove(ingredientOptional.get());
+
+        recipeRepository.save(recipe);
+    }
 }

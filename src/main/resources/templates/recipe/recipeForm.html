@@ -18,7 +18,7 @@
 
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 offset-md-3">
             <form th:object="${recipe}" th:action="@{/recipe}" method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="card-group flex-column">
@@ -69,7 +69,13 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>Difficulty:</label>
-                                    <label>
+                                    <select class="form-control" th:field="*{difficulty}">
+                                        <option th:each="difficultyValue : ${T(guru.springframework.recipeapp.model.Difficulty).values()}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name()}"
+                                        >Value</option>
+                                    </select>
+                                    <label th:remove="all">
                                         <select class="form-control">
                                             <option>Easy</option>
                                             <option>Medium</option>

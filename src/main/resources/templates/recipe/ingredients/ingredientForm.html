@@ -18,7 +18,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 offset-md-3">
             <form th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredients'}" method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="card-group">
@@ -47,7 +47,6 @@
                                                 th:text="${uomEach.description}">Each</option>
                                     </select>
                                 </div>
-
                             </div>
                         </div>
                     </div>
