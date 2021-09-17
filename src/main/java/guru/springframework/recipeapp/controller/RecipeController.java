@@ -7,8 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -43,7 +47,15 @@ public class RecipeController {
     }
 
     @PostMapping
-    public String saveOrUpdate(@ModelAttribute RecipeDto recipeDto) {
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeDto recipeDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                log.debug(error.toString());
+            }
+
+            return "recipe/recipeForm";
+        }
+
         RecipeDto savedRecipeDto = recipeService.saveRecipeDTO(recipeDto);
 
         return "redirect:/recipe/" + savedRecipeDto.getId() + "/show";
@@ -63,18 +75,6 @@ public class RecipeController {
         log.error(exception.getMessage());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("404error");
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormat(Exception exception) {
-        log.error("Handling number format exception");
-        log.error(exception.getMessage());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("400error");
         modelAndView.addObject("exception", exception);
 
         return modelAndView;
