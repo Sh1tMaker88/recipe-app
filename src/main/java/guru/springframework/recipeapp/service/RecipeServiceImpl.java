@@ -3,6 +3,7 @@ package guru.springframework.recipeapp.service;
 import guru.springframework.recipeapp.converter.RecipeDtoToRecipe;
 import guru.springframework.recipeapp.converter.RecipeToRecipeDto;
 import guru.springframework.recipeapp.dto.RecipeDto;
+import guru.springframework.recipeapp.exception.NotFoundException;
 import guru.springframework.recipeapp.model.Recipe;
 import guru.springframework.recipeapp.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
         if (recipeOptional.isEmpty()) {
-            throw new RuntimeException("No such element in database with ID:" + id);
+            throw new NotFoundException("No such recipe with ID:" + id);
         }
 
         return recipeOptional.get();
